@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_marginTop="1dp"
+    android:background="#00B2BF"
+    android:weightSum="5"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:textColor="#ff00"
+        android:hint="12:30"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textAlignment="viewStart"
+        android:id="@+id/timeDisplay"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:textColor="#ff00"
+        android:hint="Description"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textAlignment="viewStart"
+        android:id="@+id/description"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+    </LinearLayout>
+    <Switch
+        android:id="@+id/switchAlarm"
+        android:outlineSpotShadowColor="#ff0"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:showText="true"
+        android:textSize="20sp"
+        android:textOff="Off"
+        android:textOn="On" />
+</LinearLayout>

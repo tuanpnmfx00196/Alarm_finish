@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TimePicker
+        android:id="@+id/timePickerUpdate"
+        android:layout_weight="6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    </TimePicker>
+    <LinearLayout
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_weight="1.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:paddingLeft="20dp"
+            android:gravity="center"
+            android:id="@+id/timeUpdate"
+            android:textSize="20sp"
+            android:textAlignment="viewStart"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <EditText
+            android:paddingLeft="20dp"
+            android:hint="Description"
+            android:gravity="center"
+            android:id="@+id/desUpdate"
+            android:textSize="14sp"
+            android:textAlignment="viewStart"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <Button
+            android:id="@+id/btnCancel"
+            android:text="Cancel"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="50dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btnUpdate"
+            android:text="Save"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="25dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>
