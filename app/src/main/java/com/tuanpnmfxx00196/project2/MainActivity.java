@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements AlertInterface {
         builder.setTitle("My Simple Alarm");
         builder.setMessage("Stop vibrate");
         builder.setCancelable(false);
+    /*==================================RUN VIBRATOR AND SOUND===============================*/
         vibrator = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
         long[] mVibratePattern = new long[]{0, 2000, 1000, 2000};
         vibrator.vibrate(mVibratePattern,0);
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements AlertInterface {
 
             }
         });
+    /*==================================STOP VIBRATOR AND SOUND===============================*/
         builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
