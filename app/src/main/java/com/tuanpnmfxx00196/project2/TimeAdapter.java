@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Vibrator;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -34,6 +36,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
     Database database;
     Context context;
     boolean checked;
+    Vibrator vibrator;
     static AlertInterface alertInterface;
     private SparseBooleanArray itemStateArray= new SparseBooleanArray();
     public TimeAdapter(ArrayList<DataTime> arrayList, Context context, AlertInterface al) {
@@ -90,8 +93,9 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
                     intent [getAdapterPosition()] = new Intent(context,AlarmReceiver2.class);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                             getAdapterPosition(),intent[getAdapterPosition()],0);
-                    if(isChecked){
-                        Toast.makeText(context,"ON",Toast.LENGTH_SHORT).show();
+        /*===============================CHECKED SWITCH BUTTON=============================*/
+                    if(isChecked) {
+                        Toast.makeText(context, "ON", Toast.LENGTH_SHORT).show();
                         database.Update(String.valueOf(arrayList.get(getAdapterPosition()).idAlarm),
                                 arrayList.get(getAdapterPosition()).hourOfDay,
                                 arrayList.get(getAdapterPosition()).minute,
@@ -99,16 +103,17 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
                                 1
                         );
                         Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.HOUR_OF_DAY,arrayList.
+                        calendar.set(Calendar.HOUR_OF_DAY, arrayList.
                                 get(getAdapterPosition()).getHourOfDay());
-                        calendar.set(Calendar.MINUTE,arrayList.
+                        calendar.set(Calendar.MINUTE, arrayList.
                                 get(getAdapterPosition()).getMinute());
                         calendar.set(Calendar.SECOND, 0);
                         alarmManagers[getAdapterPosition()] =
-                                (AlarmManager)context.getSystemService(ALARM_SERVICE);
+                                ( AlarmManager ) context.getSystemService(ALARM_SERVICE);
                         alarmManagers[getAdapterPosition()].set(AlarmManager.RTC_WAKEUP,
-                                calendar.getTimeInMillis(),pendingIntent);
+                                calendar.getTimeInMillis(), pendingIntent);
                     }
+        /*================================CANCEL ALAMRM===================================*/
                     else{
                         database.Update(String.valueOf(arrayList.get(getAdapterPosition()).idAlarm),
                                 arrayList.get(getAdapterPosition()).hourOfDay,
@@ -116,13 +121,11 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
                                 arrayList.get(getAdapterPosition()).description,
                                 0
                         );
-                        alarmManagers[getAdapterPosition()] =
-                                (AlarmManager)context.getSystemService(ALARM_SERVICE);
-                        alarmManagers[getAdapterPosition()].cancel(pendingIntent);
                         Toast.makeText(context,"OFF",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+            /*================================CREATE CONTEXTMENU===============================*/
             OnCreateContextMenuListener listener = new OnCreateContextMenuListener() {
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -170,23 +173,20 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
 
         @Override
         public boolean onLongClick(View v) {
-            //Toast.makeText(context,getAdapterPosition()+"",Toast.LENGTH_SHORT).show();
             return false;
         }
 
     }
+    /*==================================ALAMRM RECEIVER================================*/
     public static class AlarmReceiver2 extends BroadcastReceiver {
         Context context;
         Vibrator vibrator;
+        MediaPlayer mediaPlayer;
         @Override
         public void onReceive(final Context context, Intent intent) {
-            //intent = new Intent(context,MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Toast.makeText(context,"Time Alarm",Toast.LENGTH_SHORT).show();
             alertInterface.showAlertDialog();
-            long[] mVibratePattern = new long[]{0, 2000, 1000, 2000};
-            vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(mVibratePattern, 0);
         }
     }
 }

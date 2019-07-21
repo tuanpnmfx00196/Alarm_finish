@@ -10,6 +10,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -37,9 +40,11 @@ public class MainActivity extends AppCompatActivity implements AlertInterface {
     RecyclerView recyclerView;
     ImageButton btnPlus;
     Calendar calendar;
+    Vibrator vibrator;
     TimeAdapter timeAdapter;
     Dialog dialog;
-        @Override
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -57,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements AlertInterface {
         }
         addTimeAlarm();
         initView();
-        showAlertDialog();
 
      }
     /*==================================ADD ALARM ===================================*/
@@ -107,51 +111,34 @@ public class MainActivity extends AppCompatActivity implements AlertInterface {
     public void Toats(String message){
         Toast.makeText(MainActivity.this,message,Toast.LENGTH_SHORT).show();
     }
-    /*====================================ALARMMANAGER====================================*/
-    public void MyAlarm(){
-        calendar = Calendar.getInstance();
-        ArrayList<Long>listAlarm = new ArrayList<>();
-        for(int i = 0; i<arrayList.size(); i++){
-            int hour = arrayList.get(i).hourOfDay;
-            int minute = arrayList.get(i).minute;
-            calendar.set(Calendar.HOUR_OF_DAY,hour);
-            calendar.set(Calendar.MINUTE,minute);
-            listAlarm.add(calendar.getTimeInMillis());
-        }
-        AlarmManager [] alarmManager = new AlarmManager[listAlarm.size()];
-        Intent [] intent = new Intent[alarmManager.length];
-            for (int i=0; i<alarmManager.length; i++){
-                if(arrayList.get(i).status==1) {
-                    intent[i] = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent[i], 0);
-                    alarmManager[i] = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
-                    alarmManager[i].set(AlarmManager.RTC_WAKEUP, listAlarm.get(i), pendingIntent);
-                }
-             else{
-
-                }
-        }
-    }
+    /*====================================SHOW DIALOG ALERT====================================*/
     public void showAlertDialog(){
+        int i;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("My Simple Alarm");
         builder.setMessage("Stop vibrate");
         builder.setCancelable(false);
+        vibrator = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
+        long[] mVibratePattern = new long[]{0, 2000, 1000, 2000};
+        vibrator.vibrate(mVibratePattern,0);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        final Ringtone ringtone = RingtoneManager.getRingtone(this,uri);
+        ringtone.play();
         builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toats("Click No on dialog alarm");
+
             }
         });
         builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toats("Click yes");
+                vibrator.cancel();
+                ringtone.stop();
             }
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
     }
 
   }
